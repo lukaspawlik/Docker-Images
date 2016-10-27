@@ -22,8 +22,8 @@ RUN set -xe \
 		gpg --keyserver pool.sks-keyservers.net --recv-keys "$key"; \
 	done
 
-ENV PHP_VERSION 5.6.20
-ENV PHP_FILENAME php-5.6.20.tar.xz
+ENV PHP_VERSION 5.6.27
+ENV PHP_FILENAME php-5.6.27.tar.xz
 
 RUN buildDeps=" \
             bzip2 \
@@ -79,14 +79,14 @@ ENV peclDeps=" \
 		libmemcached-dev \
 	"
 RUN apt-get update && apt-get install -y --no-install-recommends $peclDeps \
-	&& pecl install redis && echo extension=redis.so > $PHP_INI_DIR/conf.d/ext-redis.ini \
+	&& pecl install redis-2.2.8 && echo extension=redis.so > $PHP_INI_DIR/conf.d/ext-redis.ini \
 	&& pecl install memcached && echo extension=memcached.so > $PHP_INI_DIR/conf.d/ext-memcached.ini \
 	&& pecl install memcache && echo extension=memcache.so > $PHP_INI_DIR/conf.d/ext-memcache.ini \
 #   && pecl install apcu && echo extension=apcu.so > $PHP_INI_DIR/conf.d/ext-apcu.ini \
 	&& apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $peclDeps \
 	&& apt-get autoremove
 
-MAINTAINER 10up
+MAINTAINER lukaspawlik
 
 WORKDIR /var/www/html
 COPY php-fpm.conf /usr/local/etc/

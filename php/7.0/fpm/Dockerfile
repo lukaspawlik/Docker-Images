@@ -22,8 +22,8 @@ RUN set -xe \
 		gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
 	done
 
-ENV PHP_VERSION 7.0.5
-ENV PHP_FILENAME php-7.0.5.tar.xz
+ENV PHP_VERSION 7.0.12
+ENV PHP_FILENAME php-7.0.12.tar.xz
 
 # --enable-mysqlnd is included below because it's harder to compile after the fact the extensions are (since it's a plugin for several extensions, not an extension in itself)
 RUN buildDeps=" \
@@ -109,10 +109,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends $memcachedDeps 
 	&& apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $memcachedDeps \
 	&& apt-get autoremove
 
-MAINTAINER 10up
+MAINTAINER lukaspawlik
 
 WORKDIR /var/www/html
 COPY php-fpm.conf /usr/local/etc/
 
-EXPOSE 9070
+EXPOSE 9071
 CMD ["php-fpm"]
